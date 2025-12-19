@@ -31,12 +31,12 @@ GLFWwindow* create_window(int width, int height, string title) {
   return window;
 }
 
-void handle_input(GLFWwindow* window, float delta_time, Square* paddle) {
-  if(glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
+void handle_paddle_movement(GLFWwindow* window, float delta_time, Square* paddle, int up_key, int down_key) {
+  if(glfwGetKey(window, up_key) == GLFW_PRESS) {
     paddle -> position.y += 2 * delta_time;
   }
 
-  if(glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+  if(glfwGetKey(window, down_key) == GLFW_PRESS) {
     paddle -> position.y -= 2 * delta_time;
   }
 }
@@ -128,8 +128,12 @@ int main()
 
   // create our paddles
   Square paddle1;
-  paddle1.position = { 0.9f, 0.5f };
+  paddle1.position = { -0.9f, 0.0f };
   paddle1.scale = { 0.1f, 0.5f };
+
+  Square paddle2;
+  paddle2.position = { 0.9f, 0.0f };
+  paddle2.scale = { 0.1f, 0.5f };
 
   float last = glfwGetTime();
 
@@ -152,11 +156,15 @@ int main()
       glUniformMatrix4fv(project_loc, 1, GL_FALSE, &projection[0][0]);
 
       // handle inputs
-      handle_input(window, delta_time, &paddle1);
+      handle_paddle_movement(window, delta_time, &paddle1, GLFW_KEY_W, GLFW_KEY_S);
+      handle_paddle_movement(window, delta_time, &paddle2, GLFW_KEY_UP, GLFW_KEY_DOWN);
 
       // draw our stuff
       glUniform3f(colorer, 1.0f, 0.0f, 0.0f);
       paddle1.Draw(shader_program);
+
+      glUniform3f(colorer, 0.0f, 1.0f, 0.0f);
+      paddle2.Draw(shader_program);
 
       glfwSwapBuffers(window);
       glfwPollEvents();
