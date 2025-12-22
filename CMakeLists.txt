@@ -12,6 +12,7 @@ add_executable(CongL
   src/glad.c
   src/utils/shader_loader.cpp
   src/shapes/square.cpp
+  src/shapes/circle.cpp
 )
 
 target_include_directories(CongL PRIVATE

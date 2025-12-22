@@ -3,3 +3,6 @@
 
 # build
 build
+
+# mac trash
+.DS_Store

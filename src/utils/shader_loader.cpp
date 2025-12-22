@@ -30,9 +30,9 @@ void load_shaders() {
   fragment_shader = load_shader("fragment.glsl");
 
   if(vertex_shader == "" || fragment_shader == "") {
-    cerr << "Failed to load shader files!";
+    cerr << "Failed to load shader files!" << endl;
   } else {
-    cout << "Successfully loaded shader files and data";
+    cout << "Successfully loaded shader files and data" << endl;
   }
 }
 

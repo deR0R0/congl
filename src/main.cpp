@@ -4,6 +4,8 @@
 #include <string.h>
 #include "utils/shader_loader.h"
 #include "shapes/square.h"
+#include "shapes/circle.h"
+
 
 using namespace std;
 
@@ -66,7 +68,7 @@ int main()
   // do a bunch of stupid config i dunno make window and stuff
   set_window_configuration();
     
-  GLFWwindow* window = create_window(800, 600, "CongL++");
+  GLFWwindow* window = create_window(800, 800, "CongL++");
   
   glfwMakeContextCurrent(window);
 
@@ -125,6 +127,7 @@ int main()
 
   // init the mesh stuff
   Square::InitMesh();
+  Circle::InitMesh();
 
   // create our paddles
   Square paddle1;
@@ -134,6 +137,11 @@ int main()
   Square paddle2;
   paddle2.position = { 0.9f, 0.0f };
   paddle2.scale = { 0.1f, 0.5f };
+
+  // create ball
+  Circle ball;
+  //ball.position = { 0.0f, 0.0f };
+  ball.radius = 0.1f;
 
   float last = glfwGetTime();
 
@@ -158,6 +166,11 @@ int main()
       // handle inputs
       handle_paddle_movement(window, delta_time, &paddle1, GLFW_KEY_W, GLFW_KEY_S);
       handle_paddle_movement(window, delta_time, &paddle2, GLFW_KEY_UP, GLFW_KEY_DOWN);
+    
+      // move ball
+      ball.Move(delta_time);
+
+      cout << ball.Distance(paddle2) << endl;
 
       // draw our stuff
       glUniform3f(colorer, 1.0f, 0.0f, 0.0f);
@@ -165,6 +178,9 @@ int main()
 
       glUniform3f(colorer, 0.0f, 1.0f, 0.0f);
       paddle2.Draw(shader_program);
+
+      glUniform3f(colorer, 1.0f, 1.0f, 1.0f);
+      ball.Draw(shader_program);
 
       glfwSwapBuffers(window);
       glfwPollEvents();
