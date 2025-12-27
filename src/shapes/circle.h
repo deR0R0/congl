@@ -8,7 +8,7 @@ class Circle {
 
 public:
   glm::vec2 position { 0.0f };
-  glm::vec2 velocity { 1.0f, 0.0f };
+  glm::vec2 velocity { 1.0f, 0.5f };
   float radius = 1.0f;
 
   void Draw(unsigned int shader_program) const;
@@ -23,4 +23,6 @@ private:
   static unsigned int VAO;
   static unsigned int VBO;
   static int vertex_count;
+
+  void DetectWallCollision();
 };

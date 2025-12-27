@@ -4,6 +4,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <cmath>
+#include <iostream>
 
 unsigned int Circle::VAO = 0;
 unsigned int Circle::VBO = 0;
@@ -58,9 +59,35 @@ void Circle::Draw(unsigned int shader_program) const {
   glBindVertexArray(0);
 }
 
+void Circle::DetectWallCollision() {
+  if(position.x - radius <= -1.0f || position.x + radius >= 1.0f) {
+    velocity.x *= -1.0f;
+    // snap position to the side
+    // because there was a bug where the
+    // ball could somehow escape
+    if(velocity.x > 0.0f) {
+      position.x = radius + -1.0f;
+    } else {
+      position.x = 1.0f - radius;
+    }
+  }
+
+  if(position.y - radius <= -1.0f || position.y + radius >= 1.0f) {
+    velocity.y *= -1.0f;
+    // also snap position
+    if(velocity.y > 0.0f) {
+      position.y = radius + -1.0f;
+    } else {
+      position.y = 1.0f - radius;
+    }
+  }
+}
+
 void Circle::Move(float delta_time) {
   position.x += velocity.x * delta_time;
   position.y += velocity.y * delta_time;
+
+  DetectWallCollision();
 }
 
 float Circle::Distance(Square paddle) {

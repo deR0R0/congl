@@ -43,6 +43,10 @@ void handle_paddle_movement(GLFWwindow* window, float delta_time, Square* paddle
   }
 }
 
+void is_in(Square* paddle, Circle* ball) {
+  
+}
+
 
 
 
@@ -170,13 +174,11 @@ int main()
       // move ball
       ball.Move(delta_time);
 
-      cout << ball.Distance(paddle2) << endl;
-
       // draw our stuff
       glUniform3f(colorer, 1.0f, 0.0f, 0.0f);
       paddle1.Draw(shader_program);
 
-      glUniform3f(colorer, 0.0f, 1.0f, 0.0f);
+      glUniform3f(colorer, 0.0f, 0.0f, 1.0f);
       paddle2.Draw(shader_program);
 
       glUniform3f(colorer, 1.0f, 1.0f, 1.0f);
