@@ -1,4 +1,3 @@
-#include <algorithm>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
@@ -70,7 +69,7 @@ int main()
   
   // check for glfw
   if (!glfwInit()) {
-      std::cerr << "Failed to initialize GLFW\n";
+      std::cerr << "Failed to initialize GLFW" << endl;
       return -1;
   }
 
@@ -79,6 +78,11 @@ int main()
     
   GLFWwindow* window = create_window(800, 800, "CongL++");
   
+  if(window == nullptr) {
+    std::cerr << "Failed to create a window" << endl;
+    return -1;
+  }
+
   glfwMakeContextCurrent(window);
 
   // check for glad
