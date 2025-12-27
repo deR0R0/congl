@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
@@ -36,10 +37,14 @@ GLFWwindow* create_window(int width, int height, string title) {
 void handle_paddle_movement(GLFWwindow* window, float delta_time, Square* paddle, int up_key, int down_key) {
   if(glfwGetKey(window, up_key) == GLFW_PRESS) {
     paddle -> position.y += 2 * delta_time;
+    if(paddle -> position.y + (paddle -> scale.y / 2) >= 1.0f)
+      paddle -> position.y = 1.0f - (paddle -> scale.y / 2);
   }
 
   if(glfwGetKey(window, down_key) == GLFW_PRESS) {
     paddle -> position.y -= 2 * delta_time;
+    if(paddle -> position.y - (paddle -> scale.y / 2) <= -1.0f)
+      paddle -> position.y = -1.0f + (paddle -> scale.y / 2);
   }
 }
 
